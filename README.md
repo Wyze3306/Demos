@@ -188,4 +188,5 @@ Ce projet est distribué sous licence MIT.
 - Vidéo Bitcoin V2F sur Youtube (viens, on recode Bitcoin pour le comprendre)[https://youtu.be/U4S-RGNyTJA?si=7s9qKXFBUFnTpXDs]
 - Vidéo Bitcoin L'envers du décode sur Youtube (Viens on Recode le Bitcoin de ZÉRO !)[https://youtu.be/dHcrB6xwUmc?si=OC_Qyvm1J1zqRe7O]
 - Actualité Vote du 1er Ministre sur Discord (vote en ligne) (L’Insurrection de la Génération Z au Népal : La Gouvernance par la Révolution Discord)[https://www.moyens.net/tech/linsurrection-generation-z-nepal-gouvernance-revolution-discord/]
+- Recent Advancements in Blockchain Voting and E-Voting Systems [https://digitaldemocracyforum.com/recent-advancements-in-blockchain-voting-and-e-voting-systems/]
 - Programme NSI Terminale (Info Mounier)[https://info-mounier.fr/terminale_nsi/]
