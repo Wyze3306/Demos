@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Demos - Scan NFC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="assets/logo-demos.png">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    .scan-container {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 400px;
+      margin: 50px auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-top: 4px solid #000091;
+    }
+    
+    .scan-header {
+      margin-bottom: 30px;
+    }
+    
+    .scan-header h1 {
+      color: #000091;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+    
+    .scan-header p {
+      color: #6b7280;
+      font-size: 14px;
+    }
+    
+    .icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 25px;
+      background: #eff6ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+    
+    .instructions {
+      color: #374151;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    
+    .scan-container button {
+      padding: 14px 32px;
+      font-size: 16px;
+      font-weight: 500;
+      border: none;
+      border-radius: 4px;
+      background: #000091;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    
+    .scan-container button:hover {
+      background: #1212ff;
+    }
+    
+    .scan-container button:active {
+      background: #000091;
+    }
+    
+    .scan-container button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    
+    .status {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #374151;
+      min-height: 20px;
+    }
+    
+    .status.error {
+      color: #dc2626;
+    }
+    
+    .status.success {
+      color: #059669;
+    }
+    
+    .status.info {
+      color: #000091;
+    }
+    
+    .scan-footer-note {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .error-message {
+      margin: 20px 0;
+    }
+
+    .error-message h2 {
+      color: #dc2626;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+
+    .error-message p {
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 30px;
+      background: #000091;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .back-btn:hover {
+      background: #1212ff;
+    }
+    
+    @media (max-width: 768px) {
+      .scan-container {
+        padding: 30px 20px;
+        margin: 30px 15px;
+        max-width: 100%;
+      }
+      
+      .scan-header h1 {
+        font-size: 24px;
+      }
+      
+      .icon {
+        width: 70px;
+        height: 70px;
+        font-size: 35px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .scan-container {
+        padding: 25px 15px;
+        margin: 20px 10px;
+      }
+      
+      .scan-header h1 {
+        font-size: 20px;
+      }
+      
+      .scan-header p {
+        font-size: 13px;
+      }
+      
+      .icon {
+        width: 60px;
+        height: 60px;
+        font-size: 30px;
+      }
+      
+      .instructions {
+        font-size: 14px;
+      }
+      
+      .scan-container button {
+        padding: 12px 24px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header-top">
+  <div class="logo-left">
+    <img src="assets/logo-demos.png" alt="Logo Demos">
+    <a href="index.html" class="site-title">Demos</a>
+  </div>
+  <div class="logo-right">
+    <img src="assets/logo-gouvernement.png" alt="République Française">
+  </div>
+</header>
+
+<nav class="header-nav">
+  <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+  <ul id="nav-menu">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="https://www.info.gouv.fr/toute-l-actualite">Actualités</a></li>
+    <li><a href="index.html#presentation">Présentation</a></li>
+    <li><a href="index.html#confidentialite">Confidentialité</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <ul id="nav-actions" style="margin-left: auto;">
+    <li><a href="vote.html" class="nav-btn">Voter</a></li>
+    <li><a href="scan.html" class="nav-btn">S'identifier</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div class="scan-container">
+    <div class="scan-header">
+      <h1>Scan NFC</h1>
+      <p>Authentification par carte</p>
+    </div>
+    
+    <div class="icon">📱</div>
+    
+    <p class="instructions">
+      Approchez la carte d'électeur de votre téléphone pour procéder à la vérification.
+    </p>
+    
+    <button id="scanBtn" onclick="scanNFC()">Scanner la carte</button>
+    
+    <div class="status" id="status"></div>
+    
+    <div class="scan-footer-note">
+      Service sécurisé - Tous droits réservés
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-container">
+    <div class="footer-col">
+      <h3>Nos services</h3>
+      <ul>
+        <li><a href="https://www.impots.gouv.fr/accueil">Impôts</a></li>
+        <li><a href="#">Élections</a></li>
+        <li><a href="#">Démarches</a></li>
+        <li><a href="#">Aides</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>À propos</h3>
+      <ul>
+        <li><a href="index.html#g">Présentation</a></li>
+        <li><a href="index.html#p">Confidentialité</a></li>
+        <li><a href="#">Mentions légales</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Contact</h3>
+      <ul>
+        <li>Email : contact@demos.fr</li>
+        <li>Tél : 01 23 45 67 89</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="footer-bottom">© 2026 – Demos</p>
+</footer>
+
+<script>
+let isScanning = false;
+
+async function scanNFC() {
+  const status = document.getElementById("status");
+  const scanBtn = document.getElementById("scanBtn");
+
+  if (!("NDEFReader" in window)) {
+    status.className = "status error";
+    status.innerText = "NFC non supporté sur ce navigateur. Veuillez utiliser un smartphone compatible.";
+    return;
+  }
+
+  if (isScanning) {
+    return;
+  }
+
+  try {
+    isScanning = true;
+    scanBtn.disabled = true;
+    status.className = "status info";
+    status.innerText = "En attente de la carte...";
+
+    const ndef = new NDEFReader();
+    await ndef.scan();
+
+    ndef.onreading = event => {
+      const { message } = event;
+      
+      // Parcourir les enregistrements NDEF pour trouver "user"
+      let userKey = null;
+      
+      if (message && message.records) {
+        for (const record of message.records) {
+          if (record.recordType === "text") {
+            const decoder = new TextDecoder();
+            const text = decoder.decode(record.data);
+            
+            // Chercher la clé "user" dans le texte
+            // Format attendu: "user=KEY123" ou juste la clé
+            if (text.includes("user=")) {
+              userKey = text.split("user=")[1].trim();
+            } else if (text.startsWith("user:")) {
+              userKey = text.split("user:")[1].trim();
+            } else {
+              // Si c'est juste la clé directement
+              userKey = text.trim();
+            }
+          } else if (record.recordType === "mime" && record.mediaType === "application/json") {
+            try {
+              const decoder = new TextDecoder();
+              const json = JSON.parse(decoder.decode(record.data));
+              if (json.user) {
+                userKey = json.user;
+              }
+            } catch (e) {
+              console.error("Erreur parsing JSON:", e);
+            }
+          }
+        }
+      }
+
+      if (userKey) {
+        status.className = "status success";
+        status.innerText = "Carte vérifiée. Redirection en cours...";
+        
+        // Redirection vers le site externe avec la clé
+        // Remplacez cette URL par votre site de destination
+        const redirectUrl = `https://example.com/validation?user=${encodeURIComponent(userKey)}`;
+        window.location.href = redirectUrl;
+      } else {
+        status.className = "status error";
+        status.innerText = "Aucune information 'user' trouvée sur la carte.";
+        isScanning = false;
+        scanBtn.disabled = false;
+      }
+    };
+
+    ndef.onreadingerror = error => {
+      console.error("Erreur de lecture:", error);
+      status.className = "status error";
+      status.innerText = "Erreur lors de la lecture de la carte.";
+      isScanning = false;
+      scanBtn.disabled = false;
+    };
+
+  } catch (error) {
+    console.error(error);
+    status.className = "status error";
+    if (error.name === "NotAllowedError") {
+      status.innerText = "Permission refusée. Veuillez autoriser l'accès NFC.";
+    } else if (error.name === "NotSupportedError") {
+      status.innerText = "NFC non supporté sur cet appareil.";
+    } else {
+      status.innerText = "Erreur: " + error.message;
+    }
+    isScanning = false;
+    scanBtn.disabled = false;
+  }
+}
+
+// Vérification de la compatibilité
+if (!/Android|iPhone/i.test(navigator.userAgent)) {
+  document.querySelector('main').innerHTML = `
+    <div class="scan-container">
+      <div class="scan-header">
+        <h1>Scan NFC</h1>
+        <p>Authentification par carte</p>
+      </div>
+      <div class="icon">⚠️</div>
+      <div class="error-message">
+        <h2>Appareil non compatible</h2>
+        <p>Cette fonctionnalité nécessite un smartphone équipé de la technologie NFC.</p>
+        <p>Veuillez ouvrir cette page sur un appareil Android ou iPhone compatible.</p>
+      </div>
+      <a href="index.html" class="back-btn">Retour à l'accueil</a>
+    </div>
+  `;
+}
+
+// Menu mobile
+function toggleMobileMenu() {
+  const navMenu = document.getElementById('nav-menu');
+  const navActions = document.getElementById('nav-actions');
+  navMenu.classList.toggle('active');
+  navActions.classList.toggle('active');
+}
+
+document.querySelectorAll('.header-nav a').forEach(link => {
+  link.addEventListener('click', () => {
+    if (window.innerWidth <= 768) {
+      const navMenu = document.getElementById('nav-menu');
+      const navActions = document.getElementById('nav-actions');
+      navMenu.classList.remove('active');
+      navActions.classList.remove('active');
+    }
+  });
+});
+</script>
+
+</body>
+</html>

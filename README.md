@@ -1,192 +1,106 @@
-# 🔐 Demos - Vote Décentralisé via Blockchain
+# DEMOS — prototype de vote citoyen décentralisé (blockchain)
 
-**Un système de vote démocratique sécurisé et transparent, basé sur la technologie blockchain.**
+**DEMOS** est un prototype NSI qui simule un système de vote en ligne :
+- identification via **scan NFC** (démo)
+- enregistrement des votes dans une **blockchain** (chaîne de blocs)
+- consultation et votes via une **interface web**
 
----
+Ce projet est une **démonstration pédagogique** (Trophées NSI) : il ne prétend pas être un système électoral officiel.
 
-## 🎯 Le Concept
+## Pourquoi ce projet ? (constat + chiffres)
 
-La démocratie moderne fait face à un défi : comment garantir que chaque vote compte vraiment ? Comment empêcher la fraude électorale tout en preservant l'anonymat du votant ? Comment garantir une transparance totale ?
+- **Coût et lourdeur logistique** : l’organisation des élections mobilise des moyens importants.
+  - En 2022, le budget prévu pour l’**organisation des élections** (programme 232 « Vie politique », action 02) atteint **~412,7 M€** (élection présidentielle + législatives + autres scrutins de l’année).
+- **Rareté des référendums** : sous la Ve République, seulement **9 référendums** ont été organisés depuis 1958 (hors référendum constitutionnel de 1958).
+- **Risque de fraude / manipulation** : même en France, des affaires ont existé.
+  - Exemple : *affaire des faux électeurs du 5e arrondissement de Paris* (Jean Tiberi), avec des inscriptions fictives et une condamnation.
 
-**Demos** répond à ces questions en utilisant la **blockchain** : une technologie qui rend chaque vote **transparent et vérifiable**, sans révéler l'identité du votant.
+L’objectif de DEMOS est de montrer comment la blockchain peut aider à :
+- rendre le processus plus **auditable**
+- limiter la dépendance à un **seul acteur central**
+- simplifier l’accès au vote (sans supprimer les garanties)
 
-### Le Problème
-- 🚫 Les systèmes centralisés : une organisation (un état) contrôle tout
-- 🚫 Les urnes papier : lentes, corruptibles, difficiles à auditer
-- 🚫 Le vote électronique classique : confiance à une machine et corruptible
+## Idée principale
 
-### Notre Solution
-- ✅ **Décentralisé** : pas d'autorité centrale, plusieurs nœuds indépendants
-- ✅ **Transparent** : tout le monde peut vérifier chaque vote
-- ✅ **Anonyme** : nul ne sait qui a voté quoi
-- ✅ **Immuable** : impossible de modifier un vote après coup
-- ✅ **Rapide** : résultats directes
+Dans DEMOS :
+- un vote est une donnée (`poll`, `user`, `choice`)
+- les votes sont regroupés en blocs
+- chaque bloc pointe vers le **hash** du précédent
+- une modification a posteriori casserait la chaîne (perte d’intégrité)
 
----
+## Ce que fait la démo (fonctionnalités)
 
-## 💡 Comment ça Marche ?
+- **Créer une clé utilisateur** : une clé est générée côté serveur (démo).
+- **Créer un sondage / scrutin** : interface `admin.html`.
+- **Voter** : page `vote.html` (saisie d’une clé ou pré-remplissage via URL).
+- **Scanner NFC (démo)** : `scan.html` lit une donnée NFC (Web NFC) et redirige avec un paramètre `user`.
+- **Blockchain consultable** : route `/chain`.
+- **Minage automatique** : un thread mine régulièrement un bloc si des votes sont en attente.
 
-### Étape 1 : Tu T'inscris
-Tu crées un compte avec une **clé privée** (comme un mot de passe secret) et une **clé publique** (comme ton identifiant public).
+## Architecture du projet
 
-### Étape 2 : Tu votes
-1. Tu choisis ton candidat/option
-2. Ton vote est **chiffré** (personne ne peut le lire)
-3. Tu signes ton vote avec ta clé privée (preuve que c'est bien toi)
+- **Serveur** : `sources/Server/main.py`
+  - mini-API HTTP (module `http.server`)
+  - stockage en JSON (`users.json`, `polls.json`, `chain.json`)
+- **Site web** : `sources/Site Web/`
+  - `index.html` (accueil)
+  - `vote.html` (voter)
+  - `scan.html` (scan NFC)
+  - `admin.html` (créer un sondage)
 
-### Étape 3 : Le Vote Entre dans la Blockchain
-- Ton vote rejoint un **bloc** avec d'autres votes
-- Ce bloc est **sécurisé** avec une signature cryptographique unique (SHA-256)
-- Le bloc est lié au bloc précédent : formation d'une **chaîne immuable**
+## Lancer la démo
 
-### Étape 4 : Les Nœuds Valident
-- **10 ordinateurs indépendants** (nœuds) vérifient que :
-  - Tu as le droit de voter
-  - Tu n'as pas voté 2 fois
-  - Ton vote est bien signé
-- Ils **votent** pour accepter le bloc
-- **Majorité gagne** : le bloc est accepté
+### Prérequis
 
-### Étape 5 : Résultats Transparents
-- La blockchain complète est **publique**
-- N'importe qui peut télécharger l'historique complet
-- On peut vérifier que chaque vote a été compté (sans savoir qui a voté quoi)
+- Python 3
+- Un navigateur récent
+  - pour `scan.html`, un smartphone compatible NFC + navigateur compatible Web NFC
 
----
+### Démarrage du serveur
 
-## 🏗️ Architecture (Vue d'Ensemble)
+Exécuter :
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                       DEMOS                             │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐             │
-│  │ Nœud 1   │  │ Nœud 2   │  │ Nœud 3   │  ...       │
-│  │ (Laptop) │  │ (Desktop)│  │ (Serveur)│  (10 max) │
-│  └──────────┘  └──────────┘  └──────────┘             │
-│       │              │              │                  │
-│       └──────────┬───┴──────────┬───┘                  │
-│                  │              │                      │
-│         [Réseau Distribué P2P]                        │
-│                  │              │                      │
-│       ┌──────────┴──────────────┴──────┐              │
-│       │                                 │              │
-│    ┌──────────────────────────────────────┐           │
-│    │   BLOCKCHAIN (Chaîne de Blocs)      │           │
-│    │                                     │           │
-│    │  ┌─────────────────────────────┐   │           │
-│    │  │ Block #1 (Votes 1-100)     │   │           │
-│    │  │ Hash: 0x3a4f...            │   │           │
-│    │  └─────────────────────────────┘   │           │
-│    │            ↓ (lié à)                │           │
-│    │  ┌─────────────────────────────┐   │           │
-│    │  │ Block #2 (Votes 101-200)   │   │           │
-│    │  │ Hash: 0x7f2c...            │   │           │
-│    │  └─────────────────────────────┘   │           │
-│    │            ↓                        │           │
-│    │  ┌─────────────────────────────┐   │           │
-│    │  │ Block #3 (Votes 201-300)   │   │           │
-│    │  │ Hash: 0x9b8e...            │   │           │
-│    │  └─────────────────────────────┘   │           │
-│    │                                     │           │
-│    └─────────────────────────────────────┘           │
-│                                                         │
-│  ┌──────────────────────────────────────────────┐    │
-│  │  INTERFACE WEB (pour voter)                  │    │
-│  │                                              │    │
-│  │  ┌────────────────────────────────────────┐ │    │
-│  │  │ Bienvenue sur DemocraChain             │ │    │
-│  │  │ [Connexion avec clé privée]            │ │    │
-│  │  │                                        │ │    │
-│  │  │ Scrutin actuel: Couleur du drapeau    │ │    │
-│  │  │  ☐ Bleu  ☐ Blanc  ☐ Rouge            │ │    │
-│  │  │           [VOTER]                     │ │    │
-│  │  │                                        │ │    │
-│  │  │ Résultats en temps réel:              │ │    │
-│  │  │ Bleu: 34%  Blanc: 42%  Rouge: 24%     │ │    │
-│  │  └────────────────────────────────────────┘ │    │
-│  └──────────────────────────────────────────────┘    │
-│                                                         │
-└─────────────────────────────────────────────────────────┘
+```bash
+python sources/Server/main.py
 ```
 
----
+Le serveur démarre sur `http://localhost:8000`.
 
-### Programme NSI - Thèmes Couverts
+### Ouvrir le site
 
-| Thème NSI | Implémentation de Demos |
-|-----------|----------------------------------|
-| **Structures de Données** | Blockchain = structure chaînée, arbres de validation |
-| **Algorithmes** | Consensus distribué, vérification de signatures |
-| **Cryptographie** | RSA/ECDSA pour signer les votes, SHA256 pour hashing |
-| **Bases de Données** | Registre des votes, table des électeurs, transactions |
-| **Programmation Sûre** | Validation stricte, vérification d'intégrité |
-| **Systèmes Distribués** | Réseau P2P, synchronisation entre nœuds |
-| **Récursivité** | Vérification de la chaîne (bloc N valide si N-1 valide) |
+Ouvrir `sources/Site Web/index.html` dans un navigateur.
 
----
+## API (principales routes)
 
-## 🛠️ Les outils utilisés
+- **GET** `/get_polls` : liste des scrutins
+- **POST** `/add_poll` : créer un scrutin
+- **POST** `/add_vote` : voter
+- **GET** `/chain` : récupérer la blockchain
+- **GET** `/is_valid` : vérifier l’intégrité
+- **GET** `/create_user` : générer une clé (démo)
 
-```
-Backend:
-  - Python3
-  - SQLite (base de données)
-  - cryptography (chiffrement)
+## Intégration “République” (idée d’évolution)
 
-Frontend:
-  - CSS
-  - HTML
-```
+DEMOS sert aussi de support pour une proposition :
+- remplacer la **carte d’électeur papier** par un identifiant lié à la **carte d’identité / passeport**
+- utiliser une authentification NFC côté citoyen (comme dans la démo)
+- distribuer la validation des blocs à des organismes **certifiés** (mairies, universités, entreprises sous contrat)
 
----
+Modèle possible :
+- l’État contractualise avec des validateurs (infrastructure + audits)
+- une partie du coût logistique (impression / envoi / centralisation) peut être réduite
+- la “récompense” n’est pas une crypto-monnaie : c’est une **rémunération contractuelle** pour un service public (validation + disponibilité)
 
-## 🚀 Cas d'Usage
+## Limites (important)
 
-### 🏛️ Politique & Entreprise
-- **Élection du dirigeants** : transparent, anti-fraude
-- **Transparence totale** : vérifiable par tous, incorruptible
-- **Rapidité** : résultats en minutes, pas en jours
-- **Anonymes** : avis honnêtes sans crainte de représailles (Régime de Vichy en France par le passé)
-- **Référendum** : Référendum plus réguliers car plus simple à lancer un sondage
-- **Budget** : utilisation de l'argent publique sans filtre
+Cette version est une **simulation** :
+- le stockage est en JSON local (pas de réseau P2P réel)
+- l’anonymat cryptographique complet n’est pas implémenté
+- la sécurité NFC dépend du matériel/navigateur (Web NFC)
+- un vrai système doit intégrer : audit, certification, gestion d’identité, secret du vote, résistance aux attaques, procédures légales
 
-### 🎮 Jeux
-- **Économie gamifiée** : tokens votants = réputation
+## Sources (chiffres)
 
----
-
-## 📚 Documentation Supplémentaire
-
-- 📖 **[Architecture Détaillée](docs/ARCHITECTURE.md)** - Schémas UML et diagrammes
-- 🔒 **[Sécurité](docs/SECURITY.md)** - Menaces et contre-mesures
-- 🛠️ **[Guide Technique](docs/TECHNICAL.md)** - Installation, API, déploiement
-- 🧪 **[Tests](docs/TESTING.md)** - Comment tester le système
-
----
-
-## 👥 Équipe
-
-**Demos** est développé par une équipe de **2 étudiants NSI Terminale** dans le cadre des **Trophées NSI 2026**.
-
-- Moi
-- x
-
----
-
-## 📝 Licence
-
-Ce projet est un prototype éducatif réalisé dans le cadre des **Trophées NSI 2026**.
-Ce projet est distribué sous licence MIT.
-
----
-
-## 🎓 Sources & Inspirations
-
-- Whitepaper Bitcoin (Nakamoto, 2008)[https://bitcoin.org/files/bitcoin-paper/bitcoin_fr.pdf]
-- Vidéo Bitcoin V2F sur Youtube (viens, on recode Bitcoin pour le comprendre)[https://youtu.be/U4S-RGNyTJA?si=7s9qKXFBUFnTpXDs]
-- Vidéo Bitcoin L'envers du décode sur Youtube (Viens on Recode le Bitcoin de ZÉRO !)[https://youtu.be/dHcrB6xwUmc?si=OC_Qyvm1J1zqRe7O]
-- Actualité Vote du 1er Ministre sur Discord (vote en ligne) (L’Insurrection de la Génération Z au Népal : La Gouvernance par la Révolution Discord)[https://www.moyens.net/tech/linsurrection-generation-z-nepal-gouvernance-revolution-discord/]
-- Recent Advancements in Blockchain Voting and E-Voting Systems [https://digitaldemocracyforum.com/recent-advancements-in-blockchain-voting-and-e-voting-systems/]
-- Programme NSI Terminale (Info Mounier)[https://info-mounier.fr/terminale_nsi/]
+- **Référendums sous la Ve République** : 9 depuis 1958 (hors 1958) — vie-publique.fr
+- **Coût de la campagne du référendum 2005** : **130,6 M€** — réponse ministérielle publiée au JO Sénat (13/10/2005)
+- **Budget 2022 — organisation des élections** : **~412,7 M€** (programme 232, action 02) — budget.gouv.fr

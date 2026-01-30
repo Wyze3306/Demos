@@ -1,0 +1,87 @@
+[
+    {
+        "index": 1,
+        "timestamp": "2026-01-22 10:53:09.926712",
+        "proof": 1,
+        "previous_hash": "0",
+        "votes": []
+    },
+    {
+        "index": 2,
+        "timestamp": "2026-01-22 10:53:16.207773",
+        "proof": 632238,
+        "previous_hash": "ca806099919926bcc0655fb41f37d69a6f688a2292e7a3de67d74959507aeb2b",
+        "votes": [
+            {
+                "poll": "Vous pr\u00e9f\u00e9rez quel gateau ?",
+                "user": "b0d6c385975a20376189819c5ec8abe44106451b7c93ade67c7452d20b524ac2",
+                "choice": 1
+            }
+        ]
+    },
+    {
+        "index": 3,
+        "timestamp": "2026-01-22 11:00:54.319179",
+        "proof": 403091,
+        "previous_hash": "29ca4326040d895f3b1d6e50e27df29d1eb1027c80ac28393eeb4505eb5714b9",
+        "votes": [
+            {
+                "poll": "Vous pr\u00e9f\u00e9rez quel gateau ?",
+                "user": "2972dbda0d64c5717b2924d1b559a8c65c2fcc4783df9d8ac99ee19184707fd4",
+                "choice": 1
+            }
+        ]
+    },
+    {
+        "index": 4,
+        "timestamp": "2026-01-22 11:03:51.650671",
+        "proof": 714736,
+        "previous_hash": "fe260c81c24f136e067ec834e16115b5be73770a1067a01c78cdaa0d70025c37",
+        "votes": [
+            {
+                "poll": "Vous pr\u00e9f\u00e9rez quel gateau ?",
+                "user": "1ba1f075a195240a7e5b8e1301417f0138b6ba48c4f63db613dfb8958ccd5b05",
+                "choice": 1
+            }
+        ]
+    },
+    {
+        "index": 5,
+        "timestamp": "2026-01-22 11:04:30.763045",
+        "proof": 476581,
+        "previous_hash": "087afe0887358905eaeee1f276ce9e324e9b156e0106b83301c9040051ae33e1",
+        "votes": [
+            {
+                "poll": "Vous pr\u00e9f\u00e9rez quel gateau ?",
+                "user": "a91f78b4fd700e14ec029bfd5de9ac07d7335a4ded50163242ac0aac52ff5a54",
+                "choice": 1
+            }
+        ]
+    },
+    {
+        "index": 6,
+        "timestamp": "2026-01-22 11:05:34.098816",
+        "proof": 431630,
+        "previous_hash": "7c959ae484e53ae683b18e9f70c507be856e2153c9c7953083ed1fabf2c757f5",
+        "votes": [
+            {
+                "poll": "Vous pr\u00e9f\u00e9rez quel gateau ?",
+                "user": "3f067493abacb7418f2a1e1f9a9e788a3452e36efad8da496e0ed019b2f23453",
+                "choice": 1
+            }
+        ]
+    },
+    {
+        "index": 7,
+        "timestamp": "2026-01-22 11:18:40.534592",
+        "proof": 1108970,
+        "previous_hash": "9851e6566aa63c8975806065e0218dea3dc4af6f7981485f69aeea84943a59d2",
+        "votes": [
+            {
+                "poll": "Vous pr\u00e9f\u00e9rez quel gateau ?",
+                "user": "077bc6349509c5deadbe678555385ed84f42e94eb2062ba3272ad773d4ebe394",
+                "choice": "Cookie"
+            }
+        ]
+    }
+]
