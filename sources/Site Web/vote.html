@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Demos - Votes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/logo-demos.png">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	
+    <style>
+        .vote-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .vote-container h1 {
+            color: #000091;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .private-key {
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .private-key label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #161616;
+        }
+
+        .private-key input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .private-key input:focus {
+            outline: none;
+            border-color: #000091;
+            box-shadow: 0 0 0 2px rgba(0, 0, 145, 0.2);
+        }
+
+        .poll-card {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .poll-card h2 {
+            font-size: 1.3rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #000091;
+        }
+
+        .poll-card select {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .poll-card select:focus {
+            outline: none;
+            border-color: #000091;
+        }
+
+        .poll-card button {
+            background-color: #000091;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .poll-card button:hover {
+            background-color: #1212ff;
+        }
+
+        @media (max-width: 768px) {
+            .vote-container {
+                margin: 30px 15px;
+                padding: 0 15px;
+            }
+
+            .vote-container h1 {
+                font-size: 1.6rem;
+            }
+
+            .poll-card {
+                padding: 20px;
+            }
+
+            .poll-card h2 {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .vote-container {
+                margin: 20px 10px;
+                padding: 0 10px;
+            }
+
+            .vote-container h1 {
+                font-size: 1.4rem;
+            }
+
+            .private-key {
+                padding: 15px;
+            }
+
+            .poll-card {
+                padding: 15px;
+            }
+
+            .poll-card h2 {
+                font-size: 1rem;
+            }
+
+            .poll-card select,
+            .private-key input {
+                padding: 10px;
+                font-size: 15px;
+            }
+
+            .poll-card button {
+                padding: 10px 20px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Header -->
+<header class="header-top">
+	<div class="logo-left">
+		<img src="assets/logo-demos.png" alt="Logo Demos">
+		<a href="index.html" class="site-title">Demos</a>
+	</div>
+	<div class="logo-right">
+		<img src="assets/logo-gouvernement.png" alt="République Française">
+	</div>
+</header>
+
+<nav class="header-nav">
+	<button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+	<ul id="nav-menu">
+		<li><a href="index.html">Accueil</a></li>
+		<li><a href="https://www.info.gouv.fr/toute-l-actualite">Actualités</a></li>
+		<li><a href="index.html#presentation">Présentation</a></li>
+		<li><a href="index.html#confidentialite">Confidentialité</a></li>
+		<li><a href="index.html#contact">Contact</a></li>
+	</ul>
+	<ul id="nav-actions" style="margin-left: auto;">
+		<li><a href="vote.html" class="nav-btn">Voter</a></li>
+		<li><a href="scan.html" class="nav-btn">S'identifier</a></li>
+	</ul>
+</nav>
+
+<main>
+	<div class="vote-container">
+		<h1>Consultation citoyenne</h1>
+
+		<div class="private-key">
+			<label for="privateKey">Clé privée</label>
+			<input type="text" id="privateKey" placeholder="Entrez votre clé privée">
+		</div>
+
+		<div id="pollsContainer"></div>
+	</div>
+</main>
+
+<footer>
+	<div class="footer-container">
+		<div class="footer-col">
+			<h3>Nos services</h3>
+			<ul>
+				<li><a href="https://www.impots.gouv.fr/accueil">Impôts</a></li>
+				<li><a href="#">Élections</a></li>
+				<li><a href="#">Démarches</a></li>
+				<li><a href="#">Aides</a></li>
+			</ul>
+		</div>
+
+		<div class="footer-col">
+			<h3>À propos</h3>
+			<ul>
+				<li><a href="index.html#g">Présentation</a></li>
+				<li><a href="index.html#p">Confidentialité</a></li>
+				<li><a href="#">Mentions légales</a></li>
+			</ul>
+		</div>
+
+		<div class="footer-col">
+			<h3>Contact</h3>
+			<ul>
+				<li>Email : contact@demos.fr</li>
+				<li>Tél : 01 23 45 67 89</li>
+			</ul>
+		</div>
+	</div>
+
+	<p class="footer-bottom">© 2026 – Demos</p>
+</footer>
+
+<script>
+// Récupérer le paramètre user de l'URL et remplir le champ automatiquement
+const urlParams = new URLSearchParams(window.location.search);
+const userParam = urlParams.get('user');
+if (userParam) {
+    document.addEventListener('DOMContentLoaded', function() {
+        const privateKeyInput = document.getElementById('privateKey');
+        if (privateKeyInput) {
+            privateKeyInput.value = userParam;
+        }
+    });
+}
+
+async function get_polls() {
+    const response = await fetch("http://localhost:8000/get_polls");
+    const polls = await response.json();
+    renderPolls(polls);
+}
+
+function renderPolls(polls) {
+    const container = document.getElementById("pollsContainer");
+    container.innerHTML = "";
+
+    polls.forEach((poll, index) => {
+        const card = document.createElement("div");
+        card.className = "poll-card";
+
+        const title = document.createElement("h2");
+        title.textContent = poll.title;
+
+        const select = document.createElement("select");
+        poll.choices.forEach(choice => {
+            const option = document.createElement("option");
+            option.textContent = choice;
+            select.appendChild(option);
+        });
+
+        const button = document.createElement("button");
+        button.textContent = "Voter";
+        button.onclick = () => vote(poll.title, select.value);
+
+        card.appendChild(title);
+        card.appendChild(select);
+        card.appendChild(button);
+
+        container.appendChild(card);
+    });
+}
+
+async function vote(pollTitle, choice) {
+    const privateKey = document.getElementById("privateKey").value;
+
+    if (!privateKey) {
+        alert("Veuillez entrer votre clé privée");
+        return;
+    }
+
+    const response = await fetch("http://localhost:8000/add_vote", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            poll: pollTitle,
+            user: privateKey,
+            choice: choice
+        })
+    });
+
+    const data = await response.json();
+    alert(JSON.stringify(data));
+}
+
+// Chargement automatique des sondages
+get_polls();
+
+// Menu mobile
+function toggleMobileMenu() {
+    const navMenu = document.getElementById('nav-menu');
+    const navActions = document.getElementById('nav-actions');
+    navMenu.classList.toggle('active');
+    navActions.classList.toggle('active');
+}
+
+document.querySelectorAll('.header-nav a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+            const navMenu = document.getElementById('nav-menu');
+            const navActions = document.getElementById('nav-actions');
+            navMenu.classList.remove('active');
+            navActions.classList.remove('active');
+        }
+    });
+});
+</script>
+
+</body>
+</html>
+

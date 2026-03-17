@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8" />
+	<title>Demos - Plateforme de vote citoyenne</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="assets/logo-demos.png">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+<!-- Header -->
+<header class="header-top">
+	<div class="logo-left">
+		<img src="assets/logo-demos.png" alt="Logo Demos">
+		<a href="index.html" class="site-title">Demos</a>
+	</div>
+	<div class="logo-right">
+		<img src="assets/logo-gouvernement.png" alt="République Française">
+	</div>
+</header>
+
+<nav class="header-nav">
+	<button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+	<ul id="nav-menu">
+		<li><a href="index.html">Accueil</a></li>
+		<li><a href="https://www.info.gouv.fr/toute-l-actualite">Actualités</a></li>
+		<li><a href="#presentation">Présentation</a></li>
+		<li><a href="#confidentialite">Confidentialité</a></li>
+		<li><a href="#contact">Contact</a></li>
+	</ul>
+	<ul id="nav-actions" style="margin-left: auto;">
+		<li><a href="vote.html" class="nav-btn">Voter</a></li>
+		<li><a href="scan.html" class="nav-btn">S'identifier</a></li>
+	</ul>
+</nav>
+
+<script>
+function toggleMobileMenu() {
+	const navMenu = document.getElementById('nav-menu');
+	const navActions = document.getElementById('nav-actions');
+	navMenu.classList.toggle('active');
+	navActions.classList.toggle('active');
+}
+
+// Fermer le menu quand on clique sur un lien
+document.querySelectorAll('.header-nav a').forEach(link => {
+	link.addEventListener('click', () => {
+		if (window.innerWidth <= 768) {
+			const navMenu = document.getElementById('nav-menu');
+			const navActions = document.getElementById('nav-actions');
+			navMenu.classList.remove('active');
+			navActions.classList.remove('active');
+		}
+	});
+});
+</script>
+
+<main>
+	<!-- Hero Section -->
+	<section class="hero">
+		<h1>Bienvenue sur Demos</h1>
+		<p>La plateforme de démonstration de vote citoyen, sécurisée et anonyme.</p>
+	</section>
+
+	<!-- Comment ça marche -->
+	<section class="section" id="fonctionnement">
+		<h2 class="section-title">Comment ça marche ?</h2>
+		<div class="section-content">
+			<div class="section-image">
+				<img src="assets/illustration-fonctionnement.jpg" alt="Illustration fonctionnement">
+			</div>
+			<div class="section-text">
+				<p>Ce site repose sur un script python qui permet de simuler une blockchain de votes.</p>
+				<p>Vous pouvez voter en vous authentifiant avec votre carte d'élécteur Demos.</p>
+				<p>Une fois votre clé validée ou votre carte scannée, vous pourrez voter pour un réprésentant ou pour un référundum.</p>
+				<p>Le vote est immuable et sécurisé grâce à la décentralisation.</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Politique de confidentialité -->
+	<section class="section" id="confidentialite">
+		<h2 class="section-title">Politique de confidentialité</h2>
+		<div class="section-content reverse">
+			<div class="section-image">
+				<img src="assets/illustration-confidentialite.jpg" alt="Illustration confidentialité">
+			</div>
+			<div class="section-text">
+				<p>Ce site respecte la réglementation relative à la protection des données personnelles (RGPD et loi Informatique et Libertés).</p>
+				<p>Les données collectées sont utilisées uniquement pour le fonctionnement des services proposés et ne font l'objet d'aucune exploitation commerciale.</p>
+				<p>Vous disposez de droits sur vos données, que vous pouvez exercer conformément à la réglementation en vigueur.</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Présentation -->
+	<section class="section" id="presentation">
+		<h2 class="section-title">Présentation</h2>
+		<div class="section-content">
+			<div class="section-image">
+				<img src="assets/illustration-presentation.jpg" alt="Illustration présentation">
+			</div>
+			<div class="section-text">
+				<p>Ce site est un site de démonstration qui consiste à pouvoir voter de manière anonyme sur des élections ou référendums par exemple.</p>
+				<p>Ces votes sont sécurisés et décentralisés, ce qui vous permet d'avoir une confiance totale dans vos choix.</p>
+			</div>
+		</div>
+	</section>
+</main>
+
+<!-- Footer -->
+<footer id="contact">
+	<div class="footer-container">
+		<div class="footer-col">
+			<h3>Nos services</h3>
+			<ul>
+				<li><a href="https://www.impots.gouv.fr/accueil">Impôts</a></li>
+				<li><a href="vote.html">Élections</a></li>
+				<li><a href="#">Démarches</a></li>
+				<li><a href="#">Aides</a></li>
+			</ul>
+		</div>
+
+		<div class="footer-col">
+			<h3>À propos</h3>
+			<ul>
+				<li><a href="#presentation">Présentation</a></li>
+				<li><a href="#confidentialite">Confidentialité</a></li>
+				<li><a href="#">Mentions légales</a></li>
+			</ul>
+		</div>
+
+		<div class="footer-col">
+			<h3>Contact</h3>
+			<ul>
+				<li>Email : contact@demos.fr</li>
+				<li>Tél : 01 23 45 67 89</li>
+			</ul>
+		</div>
+	</div>
+
+	<p class="footer-bottom"> 2026 – Demos</p>
+</footer>
+
+</body>
+</html>
